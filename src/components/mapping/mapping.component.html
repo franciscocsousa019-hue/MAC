@@ -1,0 +1,38 @@
+<section>
+  <div class="max-w-2xl bg-white p-8 rounded-2xl shadow-sm border border-slate-200 mx-auto">
+    <h2 class="text-2xl font-bold mb-6 text-slate-800">⚓ Registar Âncora de Alta Valência</h2>
+    <p class="text-sm text-slate-500 mb-8 leading-relaxed">
+      A MAC regista momentos onde o organismo sentiu que a sobrevivência ou o bem-estar estavam em jogo. Preencha os detalhes para o calendário biológico.
+    </p>
+
+    <div class="space-y-6">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Data Original</label>
+          <input type="date" [value]="date()" (input)="updateSignal(date, $event)" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Valência</label>
+          <select [value]="valence()" (change)="updateValence($event)" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none">
+            <option value="negative">Negativa (Trauma/Aviso)</option>
+            <option value="positive">Positiva (Paz/Recurso)</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">O que aconteceu?</label>
+        <input type="text" [value]="title()" (input)="updateSignal(title, $event)" placeholder="Ex: Mudança, perda, grande conquista..." class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none">
+      </div>
+      <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+        <h4 class="text-xs font-bold text-blue-800 uppercase mb-3">Pistas Sensoriais (Contexto 360°)</h4>
+        <div class="grid grid-cols-2 gap-3">
+          <input type="text" [value]="smell()" (input)="updateSignal(smell, $event)" placeholder="Cheiro marcante" class="p-2 text-sm bg-white border border-blue-200 rounded-lg">
+          <input type="text" [value]="weather()" (input)="updateSignal(weather, $event)" placeholder="Clima (Frio/Sol)" class="p-2 text-sm bg-white border border-blue-200 rounded-lg">
+        </div>
+      </div>
+      <button type="button" (click)="saveAnchor()" class="w-full py-4 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition shadow-lg">
+        Gravar no Calendário Neurobiológico
+      </button>
+    </div>
+  </div>
+</section>

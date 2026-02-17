@@ -1,0 +1,32 @@
+<section>
+  <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+      <h2 class="text-xl font-bold mb-4">🌡️ Check-in de Biofeedback</h2>
+      <div class="space-y-6">
+        <div>
+          <label class="block text-sm font-medium mb-1">VFC (Variabilidade Cardíaca) - ms</label>
+          <input type="number" placeholder="Ex: 45" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none">
+          <p class="text-[10px] text-slate-400 mt-1">Valores baixos sistemáticos indicam aproximação de janela MAC.</p>
+        </div>
+        <div>
+          <div class="flex justify-between mb-2">
+            <label class="block text-sm font-medium">Nível de "Sombra" Afetiva</label>
+            <span class="text-blue-600 font-bold">{{ ghostLevel() }}</span>
+          </div>
+          <input type="range" [value]="ghostLevel()" (input)="updateGhostLevel($event)" min="0" max="10" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+          <p class="text-[10px] text-slate-400 mt-2 italic">Sensação de angústia ou euforia sem causa externa no presente.</p>
+        </div>
+        <button (click)="saveSomaticState()" class="w-full py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition">
+          Salvar Estado Somático
+        </button>
+      </div>
+    </div>
+    <div class="bg-slate-900 text-white p-8 rounded-2xl flex flex-col justify-center text-center">
+      <span class="text-4xl mb-4">🧠</span>
+      <h3 class="text-xl font-bold">A Biologia Antecipa</h3>
+      <p class="text-slate-400 text-sm mt-3 leading-relaxed">
+        "A MAC não espera pela sua consciência. O seu organismo começa a preparar defesas (stress) ou recursos (paz) até 4 semanas antes da data-âncora registrada."
+      </p>
+    </div>
+  </div>
+</section>
