@@ -5,5 +5,6 @@ export interface Anchor {
   meta: {
     smell: string;
     weather: string;
+    imageUrl?: string;
   };
 }

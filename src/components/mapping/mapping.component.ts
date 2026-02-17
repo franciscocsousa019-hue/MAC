@@ -17,6 +17,7 @@ export class MappingComponent {
   title = signal('');
   smell = signal('');
   weather = signal('');
+  imageUrl = signal('');
 
   saveAnchor() {
     if (!this.date() || !this.title()) {
@@ -30,7 +31,8 @@ export class MappingComponent {
       valence: this.valence(),
       meta: {
         smell: this.smell(),
-        weather: this.weather()
+        weather: this.weather(),
+        imageUrl: this.imageUrl() || undefined,
       }
     };
 
@@ -54,5 +56,6 @@ export class MappingComponent {
     this.title.set('');
     this.smell.set('');
     this.weather.set('');
+    this.imageUrl.set('');
   }
 }

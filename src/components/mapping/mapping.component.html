@@ -24,10 +24,13 @@
         <input type="text" [value]="title()" (input)="updateSignal(title, $event)" placeholder="Ex: Mudança, perda, grande conquista..." class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none">
       </div>
       <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
-        <h4 class="text-xs font-bold text-blue-800 uppercase mb-3">Pistas Sensoriais (Contexto 360°)</h4>
+        <h4 class="text-xs font-bold text-blue-800 uppercase mb-3">Pistas Sensoriais (Snapshot 360°)</h4>
         <div class="grid grid-cols-2 gap-3">
           <input type="text" [value]="smell()" (input)="updateSignal(smell, $event)" placeholder="Cheiro marcante" class="p-2 text-sm bg-white border border-blue-200 rounded-lg">
           <input type="text" [value]="weather()" (input)="updateSignal(weather, $event)" placeholder="Clima (Frio/Sol)" class="p-2 text-sm bg-white border border-blue-200 rounded-lg">
+        </div>
+        <div class="mt-3">
+            <input type="text" [value]="imageUrl()" (input)="updateSignal(imageUrl, $event)" placeholder="URL de imagem representativa" class="w-full p-2 text-sm bg-white border border-blue-200 rounded-lg">
         </div>
       </div>
       <button type="button" (click)="saveAnchor()" class="w-full py-4 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition shadow-lg">

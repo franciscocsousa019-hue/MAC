@@ -1,32 +1,72 @@
 <section>
-  <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
-    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
-      <h2 class="text-xl font-bold mb-4">🌡️ Check-in de Biofeedback</h2>
-      <div class="space-y-6">
+  <div class="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+    <!-- Left Column: Inputs -->
+    <div class="space-y-8">
+      <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+        <h2 class="text-xl font-bold">🌡️ Check-in de Biofeedback (Hoje)</h2>
+        
         <div>
           <label class="block text-sm font-medium mb-1">VFC (Variabilidade Cardíaca) - ms</label>
-          <input type="number" placeholder="Ex: 45" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none">
+          <input type="number" placeholder="Ex: 45" [value]="hrv()" (input)="updateSignal(hrv, $event)" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none">
           <p class="text-[10px] text-slate-400 mt-1">Valores baixos sistemáticos indicam aproximação de janela MAC.</p>
         </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1">Cortisol Salivar (nmol/L) - Opcional</label>
+          <input type="number" [value]="cortisolLevel()" (input)="updateSignal(cortisolLevel, $event)" placeholder="Ex: 15.2" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none">
+          <p class="text-[10px] text-slate-400 mt-1">Instabilidade no Cortisol pode sinalizar pico MAC iminente.</p>
+        </div>
+
         <div>
           <div class="flex justify-between mb-2">
             <label class="block text-sm font-medium">Nível de "Sombra" Afetiva</label>
             <span class="text-blue-600 font-bold">{{ ghostLevel() }}</span>
           </div>
           <input type="range" [value]="ghostLevel()" (input)="updateGhostLevel($event)" min="0" max="10" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
-          <p class="text-[10px] text-slate-400 mt-2 italic">Sensação de angústia ou euforia sem causa externa no presente.</p>
         </div>
-        <button (click)="saveSomaticState()" class="w-full py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition">
-          Salvar Estado Somático
-        </button>
       </div>
+
+      <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+        <h2 class="text-xl font-bold">🌙 Monitoramento do Sono (Hoje)</h2>
+        <div>
+          <div class="flex justify-between mb-2">
+            <label class="block text-sm font-medium">Qualidade do Sono</label>
+            <span class="text-blue-600 font-bold">{{ sleepQuality() }} / 10</span>
+          </div>
+          <input type="range" [value]="sleepQuality()" (input)="updateSleepQuality($event)" min="0" max="10" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Notas sobre Sonhos / Pesadelos</label>
+          <textarea [value]="sleepNotes()" (input)="updateSignal(sleepNotes, $event)" rows="3" placeholder="Ex: Sonhos vívidos sobre o evento-âncora..." class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none"></textarea>
+        </div>
+      </div>
+      
+      <button (click)="saveSomaticState()" class="w-full py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition shadow-lg">
+        Salvar Registo de Hoje
+      </button>
     </div>
-    <div class="bg-slate-900 text-white p-8 rounded-2xl flex flex-col justify-center text-center">
-      <span class="text-4xl mb-4">🧠</span>
-      <h3 class="text-xl font-bold">A Biologia Antecipa</h3>
-      <p class="text-slate-400 text-sm mt-3 leading-relaxed">
-        "A MAC não espera pela sua consciência. O seu organismo começa a preparar defesas (stress) ou recursos (paz) até 4 semanas antes da data-âncora registrada."
-      </p>
+
+    <!-- Right Column: History -->
+    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+        <h2 class="text-xl font-bold mb-4">📜 Histórico de Registos</h2>
+        <div class="space-y-3 max-h-[600px] overflow-y-auto pr-2">
+            @for (entry of somaticHistory(); track entry.date) {
+                <div class="p-4 rounded-lg bg-slate-50 border border-slate-200">
+                    <p class="font-bold text-slate-700">{{ entry.date }}</p>
+                    <div class="text-xs text-slate-500 mt-2 grid grid-cols-2 gap-x-4 gap-y-1">
+                        <span>VFC: <strong class="text-slate-600">{{ entry.hrv ?? 'N/A' }}</strong> ms</span>
+                        <span>Cortisol: <strong class="text-slate-600">{{ entry.cortisol ?? 'N/A' }}</strong> nmol/L</span>
+                        <span>Sombra: <strong class="text-slate-600">{{ entry.affectiveShadow }}/10</strong></span>
+                        <span>Sono: <strong class="text-slate-600">{{ entry.sleepQuality }}/10</strong></span>
+                    </div>
+                    @if(entry.sleepNotes) {
+                      <p class="text-xs text-slate-500 mt-2 pt-2 border-t border-slate-200 italic">"{{ entry.sleepNotes }}"</p>
+                    }
+                </div>
+            } @empty {
+                <div class="text-center py-10 text-slate-400 italic">Nenhum registo encontrado.</div>
+            }
+        </div>
     </div>
   </div>
 </section>

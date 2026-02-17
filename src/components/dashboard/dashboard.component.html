@@ -15,41 +15,58 @@
     }
   </header>
 
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-    <!-- Chart -->
+  <div class="grid grid-cols-1 gap-6">
+    <!-- Top Row: Main Chart -->
     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-      <h3 class="font-bold text-slate-700 mb-4">Sinalizador de Deriva (HRV vs Stress)</h3>
+      <h3 class="font-bold text-slate-700 mb-4">Sinalizador de Deriva (Últimos 7 dias)</h3>
       <div class="chart-container">
         <canvas #mainChart></canvas>
       </div>
     </div>
+    
+    <!-- Bottom Row: Stacking and Upcoming -->
+    <div class.bind="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Anchor Stacking Chart -->
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+        <h3 class="font-bold text-slate-700 mb-4">Empilhamento de Âncoras (Anual)</h3>
+        <p class="text-xs text-slate-500 mb-4 -mt-3">Visualiza meses com alta carga de memória afetiva.</p>
+        <div class="chart-container" style="height: 250px;">
+          <canvas #affectiveLoadChart></canvas>
+        </div>
+      </div>
 
-    <!-- Upcoming -->
-    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-      <h3 class="font-bold text-slate-700 mb-4">Próximas Janelas de Recorrência</h3>
-      <div class="space-y-4">
-        @for (window of upcomingWindows(); track window.title + window.date) {
-          <div [class]="'p-4 rounded-xl border flex justify-between items-center transition-all ' + (window.valence === 'negative' ? 'bg-red-50 border-red-200 pulse-warning' : 'bg-green-50 border-green-200')">
-            <div>
-              <div [class]="'text-xs font-bold uppercase ' + (window.valence === 'negative' ? 'text-red-600' : 'text-green-600')">
-                {{ window.valence === 'negative' ? 'ALERTA DE DEFESA' : 'RECURSO DISPONÍVEL' }}
-              </div>
-              <div class="font-bold text-slate-800">{{ window.title }}</div>
-              <div class="text-[10px] text-slate-500">Pico estimado: {{ window.peakDate }}</div>
-            </div>
-            <div class="text-right">
-              <div [class]="'text-lg font-bold ' + (window.valence === 'negative' ? 'text-red-500' : 'text-green-500')">
-                @if(window.diffDays >= 0) {
-                  em {{ window.diffDays }}d
-                } @else {
-                  {{ Math.abs(window.diffDays) }}d atrás
+      <!-- Upcoming Windows -->
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+        <h3 class="font-bold text-slate-700 mb-4">Próximas Janelas de Recorrência</h3>
+        <div class="space-y-3 max-h-[250px] overflow-y-auto pr-2">
+          @for (window of upcomingWindows(); track window.title + window.date) {
+            <div [class]="'p-4 rounded-xl border flex justify-between items-center transition-all ' + (window.valence === 'negative' ? 'bg-red-50 border-red-200 pulse-warning' : 'bg-green-50 border-green-200')">
+              <div class="flex items-center gap-4">
+                @if (window.meta.imageUrl) {
+                  <img [src]="window.meta.imageUrl" alt="Snapshot" class="w-12 h-12 rounded-md object-cover flex-shrink-0">
                 }
+                <div>
+                  <div [class]="'text-xs font-bold uppercase ' + (window.valence === 'negative' ? 'text-red-600' : 'text-green-600')">
+                    {{ window.valence === 'negative' ? 'ALERTA DE DEFESA' : 'RECURSO DISPONÍVEL' }}
+                  </div>
+                  <div class="font-bold text-slate-800">{{ window.title }}</div>
+                  <div class="text-[10px] text-slate-500">Pico estimado: {{ window.peakDate }}</div>
+                </div>
+              </div>
+              <div class="text-right flex-shrink-0">
+                <div [class]="'text-lg font-bold ' + (window.valence === 'negative' ? 'text-red-500' : 'text-green-500')">
+                  @if(window.diffDays >= 0) {
+                    em {{ window.diffDays }}d
+                  } @else {
+                    {{ Math.abs(window.diffDays) }}d atrás
+                  }
+                </div>
               </div>
             </div>
-          </div>
-        } @empty {
-          <div class="text-center py-10 text-slate-400 italic">Sem recorrências previstas para os próximos 30 dias.</div>
-        }
+          } @empty {
+            <div class="text-center py-10 text-slate-400 italic">Sem recorrências previstas para os próximos 30 dias.</div>
+          }
+        </div>
       </div>
     </div>
   </div>
