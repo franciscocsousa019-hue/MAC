@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
 
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MappingComponent } from './components/mapping/mapping.component';
@@ -16,7 +17,8 @@ type Tab = 'dashboard' | 'mapping' | 'tracker' | 'therapy';
     DashboardComponent,
     MappingComponent,
     TrackerComponent,
-    TherapyComponent
+    TherapyComponent,
+    NgOptimizedImage
   ]
 })
 export class AppComponent {
